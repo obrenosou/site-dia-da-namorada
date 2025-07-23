@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html class="scroll-smooth" lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1" name="viewport" />
+  <title>Te amo momo</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet" />
+  <style>
+    body {
+      font-family: 'Roboto', sans-serif;
+      background-color: black;
+      overflow-x: hidden;
+    }
+    #start-screen {
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    #btnClique {
+      border: 2px solid white;
+      background-color: black;
+      color: white;
+      font-weight: 700;
+      text-transform: uppercase;
+      padding: 1rem 2.5rem;
+      border-radius: 0.5rem;
+      box-shadow: 0 4px 6px rgba(255, 255, 255, 0.3);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 1.25rem;
+      transition: background-color 0.3s ease;
+    }
+    #btnClique:hover {
+      filter: brightness(1.1);
+    }
+    .heart {
+      position: fixed;
+      font-size: 1.5rem;
+      animation: floatUp 4s linear forwards;
+      pointer-events: none;
+      user-select: none;
+      z-index: 10;
+    }
+    @keyframes floatUp {
+      0% { transform: translateY(0) scale(1); opacity: 1; }
+      100% { transform: translateY(-120vh) scale(1.5); opacity: 0; }
+    }
+    #carousel-screen {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 1.5rem;
+      max-width: 100%;
+      height: 100vh;
+      padding: 1.5rem;
+    }
+   #carousel-image {
+  width: 90vw;
+  height: 90vh;
+  max-width: 900px;
+  max-height: 600px;
+  object-fit: contain;
+  background-color: black;
+  border-radius: 0.5rem;
+  box-shadow: 0 8px 15px rgba(255, 255, 255, 0.3);
+}
+    #contador {
+      color: #ddd;
+      font-weight: 600;
+      font-size: 1.125rem;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div id="start-screen">
+    <button id="btnClique">Clique <span style="color: red;">❤️</span></button>
+  </div>
+
+  <div id="carousel-screen" class="flex flex-col items-center">
+    <div class="relative">
+      <img id="carousel-image" src="" alt="Foto" />
+      <button id="prev-btn" class="absolute top-1/2 left-2 transform -translate-y-1/2 bg-white bg-opacity-70 text-gray-800 rounded-full p-2 shadow-md">
+        <i class="fas fa-chevron-left text-xl"></i>
+      </button>
+      <button id="next-btn" class="absolute top-1/2 right-2 transform -translate-y-1/2 bg-white bg-opacity-70 text-gray-800 rounded-full p-2 shadow-md">
+        <i class="fas fa-chevron-right text-xl"></i>
+      </button>
+    </div>
+    <p id="contador"></p>
+  </div>
+
+  <audio id="bg-music" preload="auto" loop src="https://raw.githubusercontent.com/obrenosou/site-dia-da-namorada/main/Bryan-Behr-Eu-Te-Amo-_Voz-E-Viol%C3%A3o_.mp3"></audio>
+
+  <script>
+    const images = [
+      { src: "https://raw.githubusercontent.com/obrenosou/site-dia-da-namorada/main/1.jpg", alt: "Foto 1" },
+      { src: "https://raw.githubusercontent.com/obrenosou/site-dia-da-namorada/main/10.jpg", alt: "Foto 2" },
+      { src: "https://raw.githubusercontent.com/obrenosou/site-dia-da-namorada/main/11.jpg", alt: "Foto 3" },
+      { src: "https://raw.githubusercontent.com/obrenosou/site-dia-da-namorada/main/12.jpg", alt: "Foto 4" },
+      { src: "https://raw.githubusercontent.com/obrenosou/site-dia-da-namorada/main/13.jpg", alt: "Foto 5" },
+      { src: "https://raw.githubusercontent.com/obrenosou/site-dia-da-namorada/main/14.jpg", alt: "Foto 6" },
+      { src: "https://raw.githubusercontent.com/obrenosou/site-dia-da-namorada/main/15.jpg", alt: "Foto 7" },
+      { src: "https://raw.githubusercontent.com/obrenosou/site-dia-da-namorada/main/16.jpg", alt: "Foto 8" },
+      { src: "https://raw.githubusercontent.com/obrenosou/site-dia-da-namorada/main/17.jpg", alt: "Foto 9" },
+      { src: "https://raw.githubusercontent.com/obrenosou/site-dia-da-namorada/main/2.jpg", alt: "Foto 10" },
+      { src: "https://raw.githubusercontent.com/obrenosou/site-dia-da-namorada/main/3.jpg", alt: "Foto 11" },
+      { src: "https://raw.githubusercontent.com/obrenosou/site-dia-da-namorada/main/4.jpg", alt: "Foto 12" },
+      { src: "https://raw.githubusercontent.com/obrenosou/site-dia-da-namorada/main/5.jpg", alt: "Foto 13" },
+      { src: "https://raw.githubusercontent.com/obrenosou/site-dia-da-namorada/main/6.jpg", alt: "Foto 14" },
+      { src: "https://raw.githubusercontent.com/obrenosou/site-dia-da-namorada/main/7.jpg", alt: "Foto 15" },
+      { src: "https://raw.githubusercontent.com/obrenosou/site-dia-da-namorada/main/8.jpg", alt: "Foto 16" },
+      { src: "https://raw.githubusercontent.com/obrenosou/site-dia-da-namorada/main/9.jpg", alt: "Foto 17" }
+    ];
+
+    const btnClique = document.getElementById("btnClique");
+    const startScreen = document.getElementById("start-screen");
+    const carouselScreen = document.getElementById("carousel-screen");
+    const carouselImage = document.getElementById("carousel-image");
+    const prevBtn = document.getElementById("prev-btn");
+    const nextBtn = document.getElementById("next-btn");
+    const contador = document.getElementById("contador");
+    const audio = document.getElementById("bg-music");
+
+    let currentIndex = 0;
+    let clickCount = 0;
+    let usandoPalavraAmando = false;
+
+    // Pré-carregamento da música
+    audio.volume = 0.45;
+    audio.play().then(() => {
+      audio.pause();
+      audio.currentTime = 0;
+    }).catch(() => {});
+
+    btnClique.addEventListener("click", () => {
+      clickCount++;
+      if (clickCount < 4) {
+        btnClique.style.backgroundColor = ["black", "blue", "green", "red"][clickCount];
+      } else {
+        startScreen.style.display = "none";
+        carouselScreen.style.display = "flex";
+        updateCarousel();
+        startContador();
+
+        // Tocar música
+        audio.play().catch(err => {
+          alert("⚠️ Ative o áudio no navegador para ouvir a música.");
+          console.warn("Erro ao tocar a música:", err);
+        });
+
+        // Carrossel automático
+        setInterval(() => {
+          currentIndex = (currentIndex + 1) % images.length;
+          updateCarousel();
+        }, 2000);
+      }
+    });
+
+    function updateCarousel() {
+      carouselImage.src = images[currentIndex].src;
+      carouselImage.alt = images[currentIndex].alt;
+    }
+
+    prevBtn.addEventListener("click", () => {
+      currentIndex = (currentIndex - 1 + images.length) % images.length;
+      updateCarousel();
+    });
+
+    nextBtn.addEventListener("click", () => {
+      currentIndex = (currentIndex + 1) % images.length;
+      updateCarousel();
+    });
+
+    function startContador() {
+      const startDate = new Date(2020, 6, 14);
+      function update() {
+        const now = new Date();
+        const diff = now - startDate;
+        const dias = Math.floor(diff / (1000 * 60 * 60 * 24));
+        const horas = Math.floor(diff / (1000 * 60 * 60)) % 24;
+        const minutos = Math.floor(diff / (1000 * 60)) % 60;
+        const segundos = Math.floor(diff / 1000) % 60;
+        const palavra = usandoPalavraAmando ? "<strong>AMANDO</strong>" : "amansando";
+        contador.innerHTML = `te ${palavra} há ${dias} dia${dias !== 1 ? "s" : ""}, ${horas} hora${horas !== 1 ? "s" : ""}, ${minutos} minuto${minutos !== 1 ? "s" : ""} e ${segundos} segundo${segundos !== 1 ? "s" : ""}`;
+      }
+      update();
+      setInterval(update, 1000);
+      setTimeout(() => { usandoPalavraAmando = true; }, 5000);
+    }
+
+    setInterval(() => {
+      const heart = document.createElement("div");
+      heart.classList.add("heart");
+      heart.innerHTML = "🤍";
+      heart.style.left = Math.random() * 100 + "vw";
+      heart.style.top = "100vh";
+      heart.style.fontSize = Math.random() * 1.5 + 1 + "rem";
+      document.body.appendChild(heart);
+      setTimeout(() => heart.remove(), 4000);
+    }, 500);
+  </script>
+</body>
+</html>
