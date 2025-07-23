@@ -60,16 +60,16 @@
       height: 100vh;
       padding: 1.5rem;
     }
-   #carousel-image {
-  width: 90vw;
-  height: 90vh;
-  max-width: 900px;
-  max-height: 600px;
-  object-fit: contain;
-  background-color: black;
-  border-radius: 0.5rem;
-  box-shadow: 0 8px 15px rgba(255, 255, 255, 0.3);
-}
+    #carousel-image {
+      width: 90vw;
+      height: 90vh;
+      max-width: 900px;
+      max-height: 600px;
+      object-fit: contain;
+      background-color: black;
+      border-radius: 0.5rem;
+      box-shadow: 0 8px 15px rgba(255, 255, 255, 0.3);
+    }
     #contador {
       color: #ddd;
       font-weight: 600;
@@ -160,6 +160,26 @@
           currentIndex = (currentIndex + 1) % images.length;
           updateCarousel();
         }, 2000);
+
+        // Scroll suave para o contador após 2 segundos
+        setTimeout(() => {
+          contador.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }, 2000);
+
+        // Mostrar mensagem personalizada após 5 segundos
+        setTimeout(() => {
+          const msgPersonalizada = document.createElement('p');
+          msgPersonalizada.style.color = "#ff69b4"; // rosa vibrante
+          msgPersonalizada.style.fontWeight = "700";
+          msgPersonalizada.style.fontSize = "1.5rem";
+          msgPersonalizada.style.marginTop = "1rem";
+          msgPersonalizada.textContent = "Você é a melhor parte do meu mundo 💖";
+
+          if (!document.getElementById('msg-personalizada')) {
+            msgPersonalizada.id = 'msg-personalizada';
+            carouselScreen.appendChild(msgPersonalizada);
+          }
+        }, 5000);
       }
     });
 
